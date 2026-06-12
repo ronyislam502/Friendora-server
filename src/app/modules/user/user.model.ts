@@ -46,7 +46,6 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: true,
       unique: true,
-      //validate email
       match: [
         /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/,
         "Please fill a valid email address",
@@ -56,7 +55,11 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: [false, "Password is required"],
     },
-    avatar: {
+    profilePicture: {
+      type: String,
+      default: "",
+    },
+    coverPhoto: {
       type: String,
       default: "",
     },
@@ -81,6 +84,10 @@ const userSchema = new Schema<TUser, UserModel>(
       type: addressSchema,
     },
     isVerified: { type: Boolean, default: false },
+    isVerifiedBadge: { type: Boolean, default: false },
+    stripeCustomerId: { type: String, default: "" },
+    stripeSubscriptionId: { type: String, default: "" },
+    subscriptionStatus: { type: String, default: "none" },
     auths: [authProviderSchema],
     favorites: [
       {

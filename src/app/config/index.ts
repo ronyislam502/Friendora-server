@@ -29,5 +29,8 @@ export default {
   google_client_id: process.env.GOOGLE_CLIENT_ID,
   google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
   google_callback_url: process.env.GOOGLE_CALLBACK_URL,
-  express_session_secret: process.env.EXPRESS_SESSION_SECRET
+  express_session_secret: process.env.EXPRESS_SESSION_SECRET,
+  stripe_secret_key: process.env.STRIPE_SECRET_KEY,
+  stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+  stripe_price_id: process.env.STRIPE_PRICE_ID,
 };

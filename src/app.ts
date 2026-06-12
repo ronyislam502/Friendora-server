@@ -4,7 +4,6 @@ import cors from "cors";
 import router from "./app/routes";
 import notFound from "./app/middlewares/notFound";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
-import { OrderServices } from "./app/modules/order/order.service";
 import expressSession from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
@@ -30,7 +29,13 @@ app.use(expressSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json());
+app.use(express.json({
+  verify: (req: any, res, buf) => {
+    if (req.originalUrl && req.originalUrl.includes("/subscriptions/webhook")) {
+      req.rawBody = buf;
+    }
+  }
+}));
 app.use(cookieParser());
 app.use(
   cors({
@@ -40,18 +45,12 @@ app.use(
 );
 
 
-cron.schedule("*/5 * * * *", async () => {
-  try {
-    await OrderServices.cancelUnpaidOrdersFromDB();
-  } catch (err) {
-    console.error("Error in cron job:", err);
-  }
-});
+
 
 app.use("/api/v1", router);
 
 const getController = (req: Request, res: Response) => {
-  res.send("SnackZilla app");
+  res.send("Friendora app");
 };
 
 app.get("/", getController);

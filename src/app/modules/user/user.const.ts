@@ -9,7 +9,7 @@ export const USER_STATUS = {
 } as const;
 
 export interface IAuthProvider {
-    provider: "google" | "credentials";  // "Google", "Credential"
+    provider: "google" | "credentials";  
     providerId: string;
 }
 

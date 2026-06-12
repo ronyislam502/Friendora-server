@@ -14,8 +14,9 @@ export type TUser = {
   _id: Types.ObjectId;
   name: string;
   email: string;
-  password?: string;
-  avatar?: string;
+  password: string;
+  profilePicture?: string;
+  coverPhoto?: string;
   phone?: string;
   role: keyof typeof USER_ROLE;
   status?: keyof typeof USER_STATUS;
@@ -23,6 +24,10 @@ export type TUser = {
   passwordChangedAt?: Date;
   auths: IAuthProvider[];
   isVerified?: boolean;
+  isVerifiedBadge?: boolean;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  subscriptionStatus?: string;
   favorites: Types.ObjectId[];
   isDeleted: boolean;
 };
