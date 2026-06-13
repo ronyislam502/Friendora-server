@@ -23,18 +23,22 @@ export type TUser = {
   address?: TAddress;
   passwordChangedAt?: Date;
   auths: IAuthProvider[];
+  followers: Types.ObjectId[];
+  following: Types.ObjectId[];
+  posts: Types.ObjectId[];
+  pages:Types.ObjectId[];
   isVerified?: boolean;
   isVerifiedBadge?: boolean;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   subscriptionStatus?: string;
-  favorites: Types.ObjectId[];
   isDeleted: boolean;
 };
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
   isUserExistsByEmail(email: string): Promise<TUser>;
+  isUserExistsByPhone(phone: string): Promise<TUser>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,

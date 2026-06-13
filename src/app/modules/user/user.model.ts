@@ -83,16 +83,49 @@ const userSchema = new Schema<TUser, UserModel>(
     address: {
       type: addressSchema,
     },
-    isVerified: { type: Boolean, default: false },
-    isVerifiedBadge: { type: Boolean, default: false },
-    stripeCustomerId: { type: String, default: "" },
-    stripeSubscriptionId: { type: String, default: "" },
-    subscriptionStatus: { type: String, default: "none" },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+    isVerifiedBadge: {
+      type: Boolean,
+      default: false
+    },
+    stripeCustomerId: {
+      type: String,
+      default: ""
+    },
+    stripeSubscriptionId: {
+      type: String,
+      default: ""
+    },
+    subscriptionStatus: {
+      type: String,
+      default: "none"
+    },
     auths: [authProviderSchema],
-    favorites: [
+    followers: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Food",
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    pages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Page",
       },
     ],
     isDeleted: {
@@ -123,6 +156,10 @@ userSchema.post("save", function (doc, next) {
 
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await this.findOne({ email });
+};
+
+userSchema.statics.isUserExistsByPhone = async function (phone: string) {
+  return await this.findOne({ phone });
 };
 
 userSchema.statics.isPasswordMatched = async function (

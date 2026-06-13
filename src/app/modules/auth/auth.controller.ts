@@ -32,13 +32,7 @@ const loginUser = catchAsync(async (req, res) => {
     message: `${user?.name} logged in successfully`,
 
     data: {
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        avatar: user.avatar,
-      },
+      user,
       accessToken,
       refreshToken,
     },
@@ -145,13 +139,7 @@ const register = catchAsync(async (req, res) => {
     success: true,
     message: "User registered successfully",
     data: {
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        avatar: user.avatar,
-      },
+      user,
       accessToken,
       refreshToken,
     },

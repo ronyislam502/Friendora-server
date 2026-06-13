@@ -10,7 +10,15 @@ const createUserIntoDB = async (profilePicture: TImageFile, payload: TUser) => {
 
   if (profilePicture && profilePicture.path) {
     payload.profilePicture = profilePicture?.path;
- }
+  }
+  
+  if (payload?.email) {
+    const existingUser = await User.isUserExistsByEmail(payload.email);
+    if (existingUser) {
+      throw new AppError(httpStatus.BAD_REQUEST, "email already exists");
+    }
+  }
+
 
   const result = await User.create(payload);
   return result;
@@ -71,37 +79,9 @@ const updateUserIntoDB = async (
 };
 
 
-const toggleFavoriteIntoDB = async (userId: string, foodId: string) => {
-  const user = await User.findById(userId);
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found");
-  }
-
-  const isFavorite = user.favorites.includes(foodId as any);
-
-  if (isFavorite) {
-    user.favorites = user.favorites.filter((id) => id.toString() !== foodId);
-  } else {
-    user.favorites.push(foodId as any);
-  }
-
-  await user.save();
-  return user.favorites;
-};
-
-const getFavoritesFromDB = async (email: string) => {
-  const user = await User.findOne({ email }).populate("favorites");
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found");
-  }
-  return user.favorites;
-};
-
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserIntoDB,
-  toggleFavoriteIntoDB,
-  getFavoritesFromDB,
 };

@@ -71,7 +71,7 @@ const googleLoginFromDB = async (payload: TUser) => {
       name: payload.name,
       email: payload.email,
       phone: payload.phone,
-      avatar: payload.avatar,
+      avatar: payload.profilePicture,
       role: "USER",
       isVerified: true,
       auths: [
