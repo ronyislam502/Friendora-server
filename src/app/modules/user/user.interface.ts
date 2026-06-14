@@ -1,53 +1,37 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-import { Model, Types } from "mongoose";
-import { IAuthProvider, USER_ROLE, USER_STATUS } from "./user.const";
+import { Model } from "mongoose";
+import { Gender, USER_ROLE } from "../../utilities/constant";
 
-export type TAddress = {
-  street: string;
-  city: string;
-  state?: string;
-  postalCode: string;
-  country: string;
-};
+export type TName = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+}
 
-export type TUser = {
-  _id: Types.ObjectId;
-  name: string;
+export type TUser ={
+  username: string;
   email: string;
   password: string;
-  profilePicture?: string;
-  coverPhoto?: string;
-  phone?: string;
+  name: TName;
+  bio?: string;
+  avatar?: string;
+  cover?: string;
+  gender?: keyof typeof Gender;
+  birthDate?: Date;
   role: keyof typeof USER_ROLE;
-  status?: keyof typeof USER_STATUS;
-  address?: TAddress;
-  passwordChangedAt?: Date;
-  auths: IAuthProvider[];
-  followers: Types.ObjectId[];
-  following: Types.ObjectId[];
-  posts: Types.ObjectId[];
-  pages:Types.ObjectId[];
-  isVerified?: boolean;
-  isVerifiedBadge?: boolean;
-  stripeCustomerId?: string;
-  stripeSubscriptionId?: string;
-  subscriptionStatus?: string;
-  isDeleted: boolean;
-};
+  relationshipStatus?: string;
+  isVerified: boolean;
+  isActive: boolean;
+}
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
   isUserExistsByEmail(email: string): Promise<TUser>;
-  isUserExistsByPhone(phone: string): Promise<TUser>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,
     hashedPassword: string
   ): Promise<boolean>;
-  isJWTIssuedBeforePasswordChanged(
-    passwordChangedTimestamp: Date,
-    jwtIssuedTimestamp: number
-  ): boolean;
 }
 
-export type TUserRole = keyof typeof USER_ROLE;
+

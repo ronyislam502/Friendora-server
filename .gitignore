@@ -2,10 +2,3 @@ node_modules
 dist
 .env
 .vercel
-
-
-# git remote add origin https://github.com/ronyislam502/Friendora-server.git
-
-
-.vercel
-.env*.local

@@ -1,46 +1,17 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
-import { TAddress, TUser, UserModel } from "./user.interface";
+import { TUser, UserModel } from "./user.interface";
 import config from "../../config";
-import { IAuthProvider, USER_ROLE, USER_STATUS } from "./user.const";
-
-const addressSchema = new Schema<TAddress>({
-  street: {
-    type: String,
-    required: [false, "Street is required"],
-    default: ""
-  },
-  city: {
-    type: String,
-    required: [false, "City is required"],
-    default: ""
-  },
-  state: { type: String, default: "" },
-  postalCode: {
-    type: String,
-    required: [false, "PostalCode is required"],
-    default: ""
-  },
-  country: {
-    type: String,
-    required: [false, "Country is required"],
-    default: ""
-  },
-});
-
-const authProviderSchema = new Schema<IAuthProvider>({
-    provider: { type: String, required: true },
-    providerId: { type: String, required: true }
-}, {
-    versionKey: false,
-    _id: false
-})
+import { Gender, USER_ROLE } from "../../utilities/constant";
 
 const userSchema = new Schema<TUser, UserModel>(
   {
-    name: {
+    username: {
       type: String,
-      required: [true, "Name is required"],
+      required: true,
+      unique: true,
+      trim: true,
+      minlength: 3,
     },
     email: {
       type: String,
@@ -53,84 +24,54 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     password: {
       type: String,
-      required: [false, "Password is required"],
+      required: true,
+      minlength: 4,
+      select: false, // hide password by default
     },
-    profilePicture: {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    bio: {
       type: String,
       default: "",
     },
-    coverPhoto: {
+    avatar: {
       type: String,
       default: "",
     },
-    phone: {
+    cover: {
       type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      enum: Object.values(Gender),
+    },
+    birthDate: {
+      type: Date,
     },
     role: {
       type: String,
-      enum: Object.keys(USER_ROLE),
-      default: USER_ROLE.USER,
-      required: [true, "Role is required"],
+      enum: Object.values(USER_ROLE),
+      default: USER_ROLE.user,
     },
-    status: {
+
+    relationshipStatus: {
       type: String,
-      enum: Object.keys(USER_STATUS),
-      default: USER_STATUS.ACTIVE,
+      enum: ["single", "married", "complicated", "other"],
+      default: "single",
     },
-    passwordChangedAt: {
-      type: Date,
-    },
-    address: {
-      type: addressSchema,
-    },
+
     isVerified: {
       type: Boolean,
-      default: false
-    },
-    isVerifiedBadge: {
-      type: Boolean,
-      default: false
-    },
-    stripeCustomerId: {
-      type: String,
-      default: ""
-    },
-    stripeSubscriptionId: {
-      type: String,
-      default: ""
-    },
-    subscriptionStatus: {
-      type: String,
-      default: "none"
-    },
-    auths: [authProviderSchema],
-    followers: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    following: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    posts: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Post",
-      },
-    ],
-    pages: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Page",
-      },
-    ],
-    isDeleted: {
-      type: Boolean,
       default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -139,17 +80,17 @@ const userSchema = new Schema<TUser, UserModel>(
 );
 
 userSchema.pre("save", async function (next) {
-  if (this.password) {
-    this.password = await bcrypt.hash(
-      this.password,
-      Number(config.bcrypt_salt_rounds)
-    );
-  }
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this; // doc
+  // hashing password and save into DB
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds)
+  );
   next();
 });
 
 userSchema.post("save", function (doc, next) {
-  // console.log(doc.password);
   doc.password = "";
   next();
 });
@@ -158,24 +99,11 @@ userSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await this.findOne({ email });
 };
 
-userSchema.statics.isUserExistsByPhone = async function (phone: string) {
-  return await this.findOne({ phone });
-};
-
 userSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
   hashedPassword
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
-};
-
-userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
-  passwordChangedTimestamp: number,
-  jwtIssuedTimestamp: number
-) {
-  const passwordChangedTime =
-    new Date(passwordChangedTimestamp).getTime() / 1000;
-  return passwordChangedTime > jwtIssuedTimestamp;
 };
 
 export const User = model<TUser, UserModel>("User", userSchema);
