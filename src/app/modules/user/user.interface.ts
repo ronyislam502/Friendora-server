@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Model } from "mongoose";
-import { Gender, USER_ROLE } from "../../utilities/constant";
+import { Gender, Relationship_Status, USER_ROLE } from "../../utilities/constant";
 
 export type TName = {
   firstName: string;
@@ -8,8 +8,7 @@ export type TName = {
   lastName: string;
 }
 
-export type TUser ={
-  username: string;
+export type TUser = {
   email: string;
   password: string;
   name: TName;
@@ -19,9 +18,10 @@ export type TUser ={
   gender?: keyof typeof Gender;
   birthDate?: Date;
   role: keyof typeof USER_ROLE;
-  relationshipStatus?: string;
+  relationshipStatus?: keyof typeof Relationship_Status;
+  status: string;
   isVerified: boolean;
-  isActive: boolean;
+  isDeleted: boolean;
 }
 
 export interface UserModel extends Model<TUser> {

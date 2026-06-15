@@ -11,3 +11,18 @@ export const Gender = {
     female: "female",
     other: "other"
 } as const;
+
+export const Relationship_Status={
+    single: "single",
+    in_a_relationship: "in a relationship",
+    engaged: "engaged",
+    married: "married",
+    divorced: "divorced",
+    widowed: "widowed"
+} as const;
+
+export const User_Status = {
+    active: "active",
+    inactive: "inactive",
+    restricted: "restricted",
+}

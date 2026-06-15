@@ -1,17 +1,29 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
-import { TUser, UserModel } from "./user.interface";
+import { TName, TUser, UserModel } from "./user.interface";
 import config from "../../config";
-import { Gender, USER_ROLE } from "../../utilities/constant";
+import { Gender, Relationship_Status, USER_ROLE } from "../../utilities/constant";
+
+
+const NameSchema = new Schema<TName>({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  }
+})
 
 const userSchema = new Schema<TUser, UserModel>(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 3,
+    name: {
+      type: NameSchema,
+      required: true
     },
     email: {
       type: String,
@@ -27,11 +39,6 @@ const userSchema = new Schema<TUser, UserModel>(
       required: true,
       minlength: 4,
       select: false, // hide password by default
-    },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
     },
     bio: {
       type: String,
@@ -57,21 +64,18 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: Object.values(USER_ROLE),
       default: USER_ROLE.user,
     },
-
     relationshipStatus: {
       type: String,
-      enum: ["single", "married", "complicated", "other"],
-      default: "single",
+      enum: Object.values(Relationship_Status),
+      default: Relationship_Status.single,
     },
-
     isVerified: {
       type: Boolean,
       default: false,
     },
-
-    isActive: {
+    isDeleted: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {
