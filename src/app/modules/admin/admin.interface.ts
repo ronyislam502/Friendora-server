@@ -1,5 +1,5 @@
 import { Model, Types } from "mongoose";
-import { TName } from "../user/user.interface";
+import { TName } from "../member/member.interface";
 
 export type TAdmin = {
     user: Types.ObjectId;

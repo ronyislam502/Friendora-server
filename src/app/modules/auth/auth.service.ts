@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { User } from "../user/user.model";
+import { User } from "../member/member.model";
 import { TLoginUser } from "./auth.interface";
 import { createToken } from "./auth.utilities";
 import config from "../../config";
@@ -32,7 +32,7 @@ const loginUser = async (payload: TLoginUser) => {
   );
 
   return {
-    accessToken:  accessToken,
+    accessToken: accessToken,
     user,
   };
 };

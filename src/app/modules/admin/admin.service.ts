@@ -2,9 +2,9 @@ import httpStatus from "http-status";
 import QueryBuilder from "../../builder/queryBuilder"
 import AppError from "../../errors/AppError";
 import { Admin } from "./admin.model"
-import { User } from "../user/user.model";
+import { User } from "../member/member.model";
 import mongoose from "mongoose";
-import { TUser } from "../user/user.interface";
+import { TUser } from "../member/member.interface";
 import { TImageFile } from "../../interface/image.interface";
 import { TAdmin } from "./admin.interface";
 

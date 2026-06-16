@@ -1,24 +1,16 @@
-import httpStatus from "http-status";
-import AppError from "../../errors/AppError";
-import { TUser } from "./user.interface";
-import { User } from "./user.model";
+import { TAdmin } from "../admin/admin.interface";
+import { TMember } from "../member/member.interface";
 
-const createUserIntoDb = async (payload: TUser) => {
-  if (payload.email) {
-    throw new AppError(httpStatus.BAD_REQUEST, "User email already exists")
-  }
-  const result = await User.create(payload);
+const createAdminIntoDB = async (payload: TAdmin) => {
 
-  return result;
-};
+}
 
-const getAllUsersFromDB = async () => {
-  const result = await User.find();
+const createMemberIntoDB = async (payload: TMember) => {
 
-  return result;
-};
+}
+
 
 export const UserServices = {
-  createUserIntoDb,
-  getAllUsersFromDB,
-};
+    createAdminIntoDB,
+    createMemberIntoDB
+}

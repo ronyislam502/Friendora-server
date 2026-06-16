@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ServiceRoutes } from "../modules/service/service.route";
 import { SlotRoutes } from "../modules/slot/slot.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
-import { UserRoutes } from "../modules/user/user.route";
+import { UserRoutes } from "../modules/member/user.route";
 import { BookingRoutes } from "../modules/booking/booking.route";
 import { BookingRoutes2 } from "../modules/booking/booking.route2";
 

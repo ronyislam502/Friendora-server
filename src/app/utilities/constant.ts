@@ -25,4 +25,4 @@ export const User_Status = {
     active: "active",
     inactive: "inactive",
     restricted: "restricted",
-}
+} as const;
