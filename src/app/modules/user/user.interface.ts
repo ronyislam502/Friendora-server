@@ -8,6 +8,14 @@ export type TName = {
     lastName: string;
 }
 
+export type TAddress = {
+    street?: string;
+    city?: string;
+    state?: string;
+    postalCode: string;
+    country: string;
+};
+
 
 export type TUser = {
     name: string;

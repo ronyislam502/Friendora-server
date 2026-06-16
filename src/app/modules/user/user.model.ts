@@ -20,6 +20,25 @@ export const NameSchema = new Schema<TName>({
     }
 })
 
+export const addressSchema = new Schema({
+    street: {
+        type: String,
+    },
+    city: {
+        type: String
+    },
+    state: {
+        type: String
+    },
+    postalCode: {
+        type: String
+    },
+    country: {
+        type: String,
+        required: true
+    },
+});
+
 const userSchema = new Schema<TUser, UserModel>(
     {
         name: {

@@ -1,13 +1,18 @@
 import { Schema, model } from "mongoose";
 import { MemberModel, TMember } from "./member.interface";
 import { Gender, Relationship_Status, User_Status } from "../../utilities/constant";
-import { NameSchema } from "../user/user.model";
+import { addressSchema, NameSchema } from "../user/user.model";
 
 
 
 
 const memberSchema = new Schema<TMember, MemberModel>(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     name: {
       type: NameSchema,
       required: true
@@ -25,11 +30,11 @@ const memberSchema = new Schema<TMember, MemberModel>(
       type: String,
       default: "",
     },
-    avatar: {
+    profilePicture: {
       type: String,
       default: "",
     },
-    cover: {
+    coverPhoto: {
       type: String,
       default: "",
     },
@@ -39,6 +44,61 @@ const memberSchema = new Schema<TMember, MemberModel>(
     },
     birthDate: {
       type: Date,
+    },
+    phone: {
+      type: String,
+    },
+    work: {
+      type: String,
+      default: "",
+    },
+    education: {
+      type: String,
+      default: "",
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    address: {
+      type: addressSchema,
+    },
+    followers: {
+      type: [Schema.Types.ObjectId],
+      ref: "Member",
+      default: [],
+    },
+    following: {
+      type: [Schema.Types.ObjectId],
+      ref: "Member",
+      default: [],
+    },
+    blockedUsers: {
+      type: [Schema.Types.ObjectId],
+      ref: "Member",
+      default: [],
+    },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
+    lastSeen: {
+      type: Date,
+    },
+    posts: {
+      type: [Schema.Types.ObjectId],
+      ref: "Post",
+      default: [],
+    },
+    pages: {
+      type: [Schema.Types.ObjectId],
+      ref: "Page",
+      default: [],
+    },
+    groupes: {
+      type: [Schema.Types.ObjectId],
+      ref: "Group",
+      default: [],
     },
     relationshipStatus: {
       type: String,
@@ -53,6 +113,13 @@ const memberSchema = new Schema<TMember, MemberModel>(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    isVerifiedBadge: {
+      type: Boolean,
+      default: false,
+    },
+    stripeCustomerId: {
+      type: String,
     },
     isDeleted: {
       type: Boolean,
