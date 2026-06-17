@@ -53,8 +53,8 @@ const memberSchema = new Schema<TMember, MemberModel>(
       default: "",
     },
     education: {
-      type: String,
-      default: "",
+      type: [String],
+      default: [],
     },
     location: {
       type: String,
@@ -124,6 +124,22 @@ const memberSchema = new Schema<TMember, MemberModel>(
     isDeleted: {
       type: Boolean,
       default: false,
+    },
+    category: {
+      type: [String],
+      default: [],
+    },
+    hobbies: {
+      type: [String],
+      default: [],
+    },
+    interests: {
+      type: [String],
+      default: [],
+    },
+    travelInformation: {
+      type: String,
+      default: "",
     },
   },
   {

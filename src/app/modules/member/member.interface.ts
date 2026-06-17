@@ -17,8 +17,8 @@ export type TMember = {
   gender?: keyof typeof Gender;
   birthDate?: Date;
   phone?: string;
-  work?: string;
-  education?: string;
+  work?: string[];
+  education?: string[];
   location?: string;
   relationshipStatus?: keyof typeof Relationship_Status;
   status: keyof typeof User_Status;
@@ -31,6 +31,10 @@ export type TMember = {
   posts?: Types.ObjectId[];
   pages?: Types.ObjectId[];
   groupes?: Types.ObjectId[];
+  category?: string[];
+  hobbies?: string[];
+  interests?: string[];
+  travelInformation?: string;
   isVerified: boolean;
   isVerifiedBadge?: boolean;
   stripeCustomerId?: string;

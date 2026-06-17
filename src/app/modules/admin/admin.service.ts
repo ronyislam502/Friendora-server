@@ -2,11 +2,11 @@ import httpStatus from "http-status";
 import QueryBuilder from "../../builder/queryBuilder"
 import AppError from "../../errors/AppError";
 import { Admin } from "./admin.model"
-import { User } from "../member/member.model";
 import mongoose from "mongoose";
-import { TUser } from "../member/member.interface";
 import { TImageFile } from "../../interface/image.interface";
 import { TAdmin } from "./admin.interface";
+import { User } from "../user/user.model";
+import { TUser } from "../user/user.interface";
 
 const allAdminsFromDB = async (query: Record<string, unknown>) => {
     const adminQuery = new QueryBuilder(
@@ -52,11 +52,13 @@ const updateAdminIntoDB = async (
             payload.avatar = image.path;
         }
 
-
         const userData: Partial<TUser> = {
-            name: payload.name,
             email: payload.email,
         };
+
+        if (payload.name) {
+            userData.name = `${payload.name.firstName} ${payload.name.middleName ? payload.name.middleName + ' ' : ''}${payload.name.lastName}`.replace(/\s+/g, ' ').trim();
+        }
 
         const updatedUser = await User.findByIdAndUpdate(
             isAdminExists.user,
