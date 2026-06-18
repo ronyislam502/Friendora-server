@@ -50,7 +50,11 @@ const updateMemberIntoDB = async (
     };
 
     if (payload.name) {
-      userData.name = `${payload.name.firstName} ${payload.name.middleName ? payload.name.middleName + ' ' : ''}${payload.name.lastName}`.replace(/\s+/g, ' ').trim();
+      userData.name = {
+        firstName: payload.name.firstName,
+        middleName: payload.name.middleName,
+        lastName: payload.name.lastName
+      };
     }
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -200,10 +204,13 @@ const updatePersonalDetails = async (
     if (!isMemberExists) throw new AppError(httpStatus.NOT_FOUND, "Member not found");
 
     if (payload.name) {
-      const nameString = `${payload.name.firstName} ${payload.name.middleName ? payload.name.middleName + ' ' : ''}${payload.name.lastName}`.replace(/\s+/g, ' ').trim();
       const updatedUser = await User.findByIdAndUpdate(
         isMemberExists.user,
-        { name: nameString },
+        { name: {
+          firstName: payload.name.firstName,
+          middleName: payload.name.middleName,
+          lastName: payload.name.lastName
+        } },
         { new: true, session }
       );
       if (!updatedUser) throw new AppError(httpStatus.BAD_REQUEST, "Failed to update user name");

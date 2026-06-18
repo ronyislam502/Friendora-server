@@ -13,10 +13,7 @@ const memberSchema = new Schema<TMember, MemberModel>(
       ref: "User",
       required: true,
     },
-    name: {
-      type: NameSchema,
-      required: true
-    },
+    name: NameSchema,
     email: {
       type: String,
       required: true,

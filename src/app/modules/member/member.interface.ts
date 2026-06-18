@@ -4,9 +4,6 @@ import { Gender, Relationship_Status, User_Status } from "../../utilities/consta
 import { TAddress, TName } from "../user/user.interface";
 
 
-
-
-
 export type TMember = {
   user: Types.ObjectId
   email: string;

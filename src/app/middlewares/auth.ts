@@ -40,11 +40,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     // checking if the user is blocked
-    const userStatus = user?.status;
+    // const userStatus = user?.status;
 
-    if (userStatus === 'blocked') {
-      throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
-    }
+    // if (userStatus === 'blocked') {
+    //   throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
+    // }
 
     if (
       user.passwordChangedAt &&

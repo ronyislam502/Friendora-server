@@ -5,7 +5,6 @@ import { USER_ROLE } from "../../utilities/constant";
 import { TName, TUser, UserModel } from "./user.interface";
 
 
-
 export const NameSchema = new Schema<TName>({
     firstName: {
         type: String,
@@ -42,8 +41,8 @@ export const addressSchema = new Schema({
 const userSchema = new Schema<TUser, UserModel>(
     {
         name: {
-            type: String,
-            required: [true, "Name is required"],
+            type: NameSchema,
+            required:true
         },
         email: {
             type: String,

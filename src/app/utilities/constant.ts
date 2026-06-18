@@ -6,13 +6,19 @@ export const USER_ROLE = {
     super_admin: "super_admin"
 } as const;
 
+export const Page_Role = {
+    admin: "admin",
+    editor: "editor",
+    modarator: "moderator"
+} as const;
+
 export const Gender = {
     male: "male",
     female: "female",
     other: "other"
 } as const;
 
-export const Relationship_Status={
+export const Relationship_Status = {
     single: "single",
     in_a_relationship: "in a relationship",
     engaged: "engaged",
@@ -26,3 +32,10 @@ export const User_Status = {
     inactive: "inactive",
     restricted: "restricted",
 } as const;
+
+
+export const Post_Privacy = {
+    public: "public",
+    friends: "friends",
+    private: "private"
+} as const

@@ -11,9 +11,9 @@ import { Admin } from "../admin/admin.model";
 import { Member } from "../member/member.model";
 
 const createAdminIntoDB = async (image: TImageFile, password: string, payload: TAdmin) => {
-
+console.log("image", image)
     const userData: Partial<TUser> = {
-        name: `${payload.name.firstName} ${payload.name.middleName ? payload.name.middleName + ' ' : ''}${payload.name.lastName}`.replace(/\s+/g, ' ').trim(),
+        name: payload.name,
         email: payload.email,
         password: password as string,
         role: USER_ROLE?.admin,
@@ -52,8 +52,15 @@ const createAdminIntoDB = async (image: TImageFile, password: string, payload: T
 }
 
 const createMemberIntoDB = async (image: TImageFile, password: string, payload: TMember) => {
+
+
+
     const userData: Partial<TUser> = {
-        name: `${payload.name.firstName} ${payload.name.middleName ? payload.name.middleName + ' ' : ''}${payload.name.lastName}`.replace(/\s+/g, ' ').trim(),
+        name: {
+            firstName: payload.name.firstName,
+            middleName: payload.name.middleName,
+            lastName: payload.name.lastName
+        },
         email: payload.email,
         password: password as string,
         role: USER_ROLE?.user,

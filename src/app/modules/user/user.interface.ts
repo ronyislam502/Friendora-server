@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Model, Types } from "mongoose";
-import { USER_ROLE } from "../../utilities/constant";
+import { Page_Role, USER_ROLE } from "../../utilities/constant";
 
 export type TName = {
     firstName: string;
@@ -16,9 +16,14 @@ export type TAddress = {
     country: string;
 };
 
+export type TPageAdmin = {
+    user: Types.ObjectId;
+    role: keyof typeof Page_Role;
+};
+
 
 export type TUser = {
-    name: string;
+    name: TName;
     email: string;
     password: string;
     role: keyof typeof USER_ROLE;

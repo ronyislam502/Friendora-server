@@ -43,8 +43,8 @@ export const uploadFileToCloudinary = async (
     cloudinary.uploader.upload_stream(
       {
         resource_type: "auto",
-        public_id: `ph-healthcare/${folder}/${uniqueName}`,
-        folder: `ph-healthcare/${folder}`,
+        public_id: `friendora/${folder}/${uniqueName}`,
+        folder: `friendora/${folder}`,
       },
       (error, result) => {
         if (error) {

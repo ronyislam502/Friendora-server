@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { AdminModel, TAdmin } from "./admin.interface";
+import { NameSchema } from "../user/user.model";
 
 const adminSchema = new Schema<TAdmin, AdminModel>(
     {
@@ -10,7 +11,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
             ref: "User",
         },
         name: {
-            type: String,
+            type: NameSchema,
             required: [true, "Name is required"],
         },
         email: {
